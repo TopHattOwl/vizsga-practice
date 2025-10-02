@@ -1,4 +1,144 @@
 
+// --- Events ---
+
+let allEvents = [];
+let currentFilters = new Set();
+
+async function loadEvents() {
+    try {
+        const response = await fetch('events_data.json');
+        const data = await response.json();
+        
+        allEvents = data.events.map((event, index) => ({
+            ...event,
+            id: index + 1
+        }));
+        
+        displayEvents(allEvents);
+        setupSearch();
+        displayFilterTags();
+        setupTagFilters();
+        
+    } catch (error) {
+        console.error('Error loading events:', error);
+        document.querySelector('.event-list').innerHTML = '<p>Error loading events. Please try again later.</p>';
+    }
+}
+
+
+function displayEvents(events) {
+    const eventList = document.querySelector('.event-list');
+
+    if (!eventList) {
+        return;
+    }
+    
+    if (events.length === 0) {
+        eventList.innerHTML = '<p>No events found matching your criteria.</p>';
+        return;
+    }
+    
+    eventList.innerHTML = events.map(event => `
+        <div class="event-card" data-tags="${event.tags.join(' ')}" id="${event.id}">
+            <h2 class="roboto-bold">${event.name}</h2>
+            <p><strong>Date:</strong> ${event.date} | ${event.time}</p>
+            <p>${event.description}</p>
+            <div class="event-tags">
+                ${event.tags.map(tag => `<span class="event-tag">${tag}</span>`).join('')}
+            </div>
+            <a href="contact.html?eventId=${event.id}" class="cta-button">Sign Up</a>
+        </div>
+    `).join('');
+}
+
+
+function displayFilterTags() {
+    const filterContainer = document.querySelector('.filter-container');
+
+    if (!filterContainer) {
+        return;
+    }
+    
+    const allTags = [...new Set(allEvents.flatMap(event => event.tags))];
+    
+    filterContainer.innerHTML = `
+        <div class="filter-tags">
+            ${allTags.map(tag => `
+                <button class="filter-tag" data-tag="${tag}">${tag}</button>
+            `).join('')}
+        </div>
+    `;
+}
+
+function setupTagFilters() {
+    document.querySelectorAll('.filter-tag').forEach(button => {
+        button.addEventListener('click', function() {
+            const tag = this.getAttribute('data-tag');
+            
+            if (currentFilters.has(tag)) {
+                currentFilters.delete(tag);
+                this.classList.remove('active');
+            } else {
+                currentFilters.add(tag);
+                this.classList.add('active');
+            }
+            
+            filterEvents();
+        });
+    });
+}
+
+function setupSearch() {
+    const searchBar = document.getElementById('search-bar');
+
+    if (!searchBar) {
+        return;
+    }
+    
+    searchBar.addEventListener('input', function() {
+        filterEvents();
+    });
+}
+
+
+function filterEvents() {
+    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+    
+    let filteredEvents = allEvents.filter(event => {
+        const matchesSearch = event.name.toLowerCase().includes(searchTerm) || 
+                             event.description.toLowerCase().includes(searchTerm);
+        
+        const matchesTags = currentFilters.size === 0 || 
+                           event.tags.some(tag => currentFilters.has(tag));
+        
+        return matchesSearch && matchesTags;
+    });
+    
+    displayEvents(filteredEvents);
+}
+
+
+function populateEventDropdown() {
+    const eventSelect = document.getElementById('event');
+    
+    eventSelect.innerHTML = '<option value="">Choose an event...</option>';
+    
+    allEvents.forEach(event => {
+        const option = document.createElement('option');
+        option.value = event.id;
+        option.textContent = event.name;
+        eventSelect.appendChild(option);
+    });
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventId = urlParams.get('eventId');
+    
+    if (eventId) {
+        eventSelect.value = eventId;
+    }
+}
+
+
 function handleFormSubmit(event) {
     event.preventDefault();
     
@@ -109,6 +249,15 @@ function validateField(field) {
 function init() {
     initMenu();
     initSignupForm();
+
+    if (document.querySelector('.event-list')) {
+        loadEvents();
+    }
+    
+    if (document.getElementById('signup-form')) {
+        initSignupForm();
+        loadEvents().then(populateEventDropdown);
+    }
 }
 
 

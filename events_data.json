@@ -1,0 +1,32 @@
+{
+  "events": [
+    {
+      "name": "Woodworking for Beginners",
+      "date": "2025-10-15",
+      "time": "14:00 - 16:00",
+      "description": "Learn the basics of woodworking in this hands-on workshop. Perfect for absolute beginners.",
+      "tags": ["woodworking", "beginner"]
+    },
+    {
+      "name": "Advanced Pottery",
+      "date": "2025-10-20",
+      "time": "18:00 - 20:00",
+      "description": "Take your pottery skills to the next level with advanced techniques.",
+      "tags": ["pottery", "advanced"]
+    },
+    {
+      "name": "Introduction to Knitting",
+      "date": "2025-10-25",
+      "time": "10:00 - 12:00",
+      "description": "A beginner-friendly session on knitting fundamentals.",
+      "tags": ["knitting", "beginner"]
+    },
+    {
+      "name": "Digital Art Workshop",
+      "date": "2025-11-01",
+      "time": "13:00 - 16:00",
+      "description": "Explore digital painting and illustration techniques.",
+      "tags": ["digital", "art", "intermediate"]
+    }
+  ]
+}
