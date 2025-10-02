@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Workshop | Contact & Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="roboto-normal">
+    <header>
+        <nav class="container">
+            <div class="logo">CreativeWorkshop</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact.html">Contact & Sign Up</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="container">
+        <div class="info-grid">
+            <div class="card">
+                <h1 class="roboto-bold">Contact Information</h1>
+                <div class="contact-info">
+                    <p><strong>Address:</strong><br>123 Maker Street<br>Creative District, CA 94110</p>
+                    <p><strong>Phone:</strong> (555) 123-4567</p>
+                    <p><strong>Email:</strong> info@creativeworkshop.com</p>
+                    
+                    <h2 class="roboto-bold">Find Us</h2>
+                    <div class="map-placeholder">
+                        Iteractive map goes here
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h1 class="roboto-bold">Sign Up for Events</h1>
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event">Select Event</label>
+                        <select id="event" name="event" required>
+                            <option value="">Choose an event...</option>
+                            <option value="placeholder-event">placeholder event name</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Sign Up Now</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Creative Workshop</p>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
